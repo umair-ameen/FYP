@@ -1,0 +1,7 @@
+.subject-row{
+    cursor: pointer;
+}
+
+.subject-row:hover{
+    background: #ccc;
+}

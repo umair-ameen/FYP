@@ -1,0 +1,60 @@
+<app-header></app-header>
+  <div class="col-md-6 col-md-offset-3">
+    <h3>Signup!</h3>
+    <form class="form" (ngSubmit)="onSignup(f)" #f="ngForm">
+      
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" name="name" ngModel>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" name="email" ngModel>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control" name="password" ngModel>
+      </div>
+
+      <div class="form-group">
+        <label for="role">I am </label>
+        <select name="role" id="" ngModel [(ngModel)]="role">
+          <option *ngFor="let role of roles" [value]="role">{{role}}</option>
+        </select>
+      </div>
+
+      <div class="role" [ngSwitch]="role">
+        <div class="student" *ngSwitchCase="'student'">
+          
+          <div class="form-group">
+            <label>Department</label>
+            <select class="form-control" name="department" id="department" ngModel>
+              <option *ngFor="let department of departments"> {{department}} </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Batch</label>
+            <select class="form-control" name="batch" id="batch" ngModel>
+              <option selected>Select your batch</option>
+              <option *ngFor="let batch of batches"> {{batch}} </option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>Number</label>
+            <input type="number" class="form-control" name="number" min="1" max="60" ngModel>
+          </div>
+        </div>
+        
+        <div class="teacher" *ngSwitchCase="'teacher'">
+          <p> After signing up, contact administrator to enable your examiner account. </p>
+        </div>
+      </div>
+      
+      <button class="btn btn-primary" type="submit">Signup</button>
+    
+    </form>
+</div>

@@ -1,0 +1,37 @@
+<form>
+  <div class="form-group">
+    <label for="batchesDropdown">Batch Selection:</label>
+    <select class="form-control" name="batches" id="batchesDropdown" (change)="onBatchSelected($event)">
+      <option value="Select a batch" selected>Select a batch</option>
+      <option *ngFor="let batch of batches" name="batchName" (click)="onBatchSelected($event)"> {{batch}} </option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="subjectInput">Subject Name:</label>
+    <input type="text" class="form-control" id="subjectInput" name="subjectInput" maxlength="50" [(ngModel)]='subjectFieldText' >
+  </div>
+  <div class="form-group">
+    <button class="btn btn-success" (click)="addSubject()">Add</button>
+    <button class="btn btn-primary" (click)="editSubject()" >Edit</button>
+    <button class="btn btn-danger" (click)="deleteSubject()" >Delete</button>
+  </div>
+</form>
+
+<div class="batchDetails">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="text-center">S.No</th>
+        <th>Subject Name</th>
+        <th>Facilitator</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let subject of subjectsArray; let i = index" class="subject-row" (click)="subjectRowSelected($event, i)">
+        <td class="text-center"> {{i + 1}} </td>
+        <td> {{subject.name}} </td>
+        <td> {{subject.facilitator}} </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
