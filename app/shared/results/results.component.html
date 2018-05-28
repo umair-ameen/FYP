@@ -1,0 +1,37 @@
+<form class="form" (ngSubmit)="f" #f="ngForm">
+  <div class="form-group">
+    <label>Batch:</label>
+    <select name="batch" class="form-control" (change)="onBatchSelected($event)" ngModel>
+      <option selected>{{note[0]}}</option>
+      <option *ngFor="let batch of batchesArray" (click)="onBatchSelected($event)"> {{batch}} </option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Subject</label>
+    <select name="subject" class="form-control" (change)="onSubjectSelected($event)" ngModel>
+      <option selected>{{note[1]}}</option>
+      <option *ngFor="let subject of subjectsArray" value="{{subject.key}}"> {{subject.name}} </option>
+    </select>
+  </div>
+</form>
+<table class="table table-striped" *ngIf="isResult">
+  <thead>
+    <tr>
+      <th class="text-center">S.No</th>
+      <th>Roll No.</th>
+      <th>Name</th>
+      <th>Marks</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let result of results; let i = index" class="subject-row" (click)="subjectRowSelected($event, i)">
+      <td class="text-center"> {{i + 1}} </td>
+      <td> {{result.rollNo}} </td>
+      <td> {{result.name}} </td>
+      <td> {{result.score}} </td>
+    </tr>
+  </tbody>
+</table>
+<div class="alert alert-warning" role="alert" *ngIf="!isResult">
+  No results for selected information!
+</div>

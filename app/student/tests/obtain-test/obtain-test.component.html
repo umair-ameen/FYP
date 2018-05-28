@@ -1,0 +1,77 @@
+<ng-container [ngSwitch]="condition">
+  <div *ngSwitchCase="'test'">
+    <div class="alert alert-primary" role="alert">
+      {{testStatus}}
+      <b class="float-right"> {{timer}} </b>
+    </div>
+    <h2>Test Information:</h2>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <td>Batch: </td>
+          <td> {{test.batch}} </td>
+        </tr>
+        <tr>
+          <td>Subject: </td>
+          <td>{{test.subjectName}}</td>
+        </tr>
+        <tr>
+          <td>Duration:</td>
+          <td>{{test.duration}} minutes</td>
+        </tr>
+        <tr>
+          <td>Total Marks:</td>
+          <td>{{test.marks}} Marks</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card">
+      <div class="card-body">
+        <form (ngSubmit)="submitQ(f)" #f="ngForm">
+          <h3>Q. {{currentQ.question}} </h3>
+          <ol>
+            <li>
+              <label>
+                <input type="radio" name="ans" value="a" required ngModel> {{currentQ.a}}
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="ans" value="b" ngModel> {{currentQ.b}}
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="ans" value="c" ngModel> {{currentQ.c}}
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="ans" value="d" ngModel> {{currentQ.d}}
+              </label>
+            </li>
+          </ol>
+          <br>
+          <button type="button" class="btn btn-primary" (click)="addToPassBox(currentQ)" *ngIf="isPassBox">Move to Pass Box</button>
+          <button type="submit" class="btn btn-danger" [disabled]="!f.valid">Next</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div *ngSwitchCase="'result'">
+    <div class="card">
+      <div class="card-body">
+        <h3>Your Marks: {{userScore}}</h3>
+      </div>
+    </div>
+  </div>
+
+  <div *ngSwitchCase="'false'">
+    <div class="alert alert-primary" role="alert">
+      No test selected. Go to
+      <a routerLink="/examiner/tests">tests page</a> to obtain a test.
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <!-- <img src="assets/img/logo.png" alt="OSAS" style="max-width: 60px; "> -->
+      OSAS
+    </a>
+    <button class="navbar-toggler navbar-toggler-right border-white" type="button" (click)="toggleCollapse()" [attr.aria-expanded]="!navbarCollapsed"
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" [class.show]="show" id="navbarContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="/">Home</a>
+        </li>
+          <li class="nav-item" routerLinkActive="active" *ngIf="role == 'teacher'">
+            <a class="nav-link" routerLink="/examiner/subjects">Subjects</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *ngIf="role == 'teacher'">
+            <a class="nav-link" routerLink="/examiner/schedule-test">Schedule Test</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *ngIf="role == 'teacher'">
+            <a class="nav-link" routerLink="/examiner/results">See Results</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *ngIf="role == 'student'">
+            <a class="nav-link" routerLink="/student/tests">Tests</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/student/results" *ngIf="role == 'student'">See Results</a>
+          </li>
+        <li class="nav-item dropdown" ngbDropdown>
+          <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+          {{userName}}</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown01" ngbDropdownMenu>
+            <a class="dropdown-item" routerLink="/login" *ngIf="role == ''">Sign in</a>
+            <a class="dropdown-item" routerLink="/signup" *ngIf="role == ''">Register</a>
+            <a class="dropdown-item" (click)="logout()" *ngIf="role != ''">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- [routerLinkActiveOptions]="{exact: true}" -->

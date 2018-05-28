@@ -1,0 +1,51 @@
+<div *ngIf="teacher">
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="form-group">
+      <label for="batchesDropdown">Batch Selection:</label>
+      <select class="form-control" name="batches" id="batchesDropdown" (change)="onBatchSelected($event)" #batch="ngModel" required
+        ngModel>
+        <option value="Select a batch" selected>Select a batch</option>
+        <option *ngFor="let batch of batches" (click)="onBatchSelected($event)"> {{batch}} </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="subjectInput">Subject Name:</label>
+      <input type="text" class="form-control" id="subjectInput" name="subjectInput" minlength="4" maxlength="50" [(ngModel)]='subjectFieldText'
+        #subject="ngModel" required ngModel>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-success" (click)="addSubject()" [disabled]="!f.valid">Add</button>
+      <!-- <button class="btn btn-primary" (click)="editSubject()" [disabled]="f.invalid">Edit</button> -->
+      <button class="btn btn-danger" (click)="deleteSubject()" [disabled]="f.invalid">Delete</button>
+    </div>
+  </form>
+  <div class="alert alert-danger" *ngIf="error!= ''">
+    {{error}}
+  </div>
+  <div class="alert alert-success" *ngIf="success!= ''">
+    {{success}}
+  </div>
+  <div class="batchDetails">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="text-center">S.No</th>
+          <th>Subject Name</th>
+          <th>Facilitator</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let subject of subjectsArray; let i = index" class="subject-row" (click)="subjectRowSelected($event, i)">
+          <td class="text-center"> {{i + 1}} </td>
+          <td> {{subject.name}} </td>
+          <td> {{subject.facilitator}} </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div *ngIf="!teacher">
+  <div class="alert alert-warning">
+    Loading your credentials...
+  </div>
+</div>

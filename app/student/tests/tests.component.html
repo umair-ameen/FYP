@@ -1,0 +1,102 @@
+<!-- <button class="btn btn-primary" (click)="fetchTest()">Check Schedule</button> -->
+<div class="alert alert-warning" role="alert">
+    {{ this.testStatus }}
+</div>
+<div class="row">
+  <div class="col-md-4" *ngFor="let test of tests; let i = index;">
+    <div class="card test-card border-purple mb-3">
+      <div class="card-header">
+        Class Test {{i+1}}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{test.title}}</h5>
+        <div class="card-text">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>Batch: </td>
+                <td> {{test.batch}} </td>
+              </tr>
+              <tr>
+                <td>Subject: </td>
+                <td>{{test.subjectName}}</td>
+              </tr>
+              <tr>
+                <td>Duration:</td>
+                <td>{{test.duration}} minutes</td>
+              </tr>
+              <tr>
+                <td>Total Marks:</td>
+                <td>{{test.marks}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer" *ngIf="test.obtainable">
+        <button class="btn btn-primary" (click)="onSelectTest(i)">Obtain Test</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 
+<button class="btn btn-primary" (click)="fetchTest()">Check Schedule</button>
+<h3>Note: {{ this.testStatus }}</h3>
+<div *ngFor="let test of tests">
+  <div *ngIf="condition">
+    <h2>Test Information:</h2>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <td>Batch: </td>
+          <td> {{test.batch}} </td>
+        </tr>
+        <tr>
+          <td>Subject: </td>
+          <td>{{test.subjectName}}</td>
+        </tr>
+        <tr>
+          <td>Duration per Question:</td>
+          <td>{{test.duration}} minutes</td>
+        </tr>
+        <tr>
+          <td>Total Marks:</td>
+          <td>x Marks</td>
+        </tr>
+      </tbody>
+    </table>
+    <form (ngSubmit)="submitQ(f)" #f="ngForm">
+      <ng-template [ngIf]="condition">
+        <h3> {{currentQ.question}} </h3>
+        <ol type="A">
+          <li>
+            <label>
+              <input type="radio" name="ans" value="a" ngModel> {{currentQ.a}}
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="radio" name="ans" value="b" ngModel> {{currentQ.b}}
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="radio" name="ans" value="c" ngModel> {{currentQ.c}}
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="radio" name="ans" value="d" ngModel> {{currentQ.d}}
+            </label>
+          </li>
+        </ol>
+
+        <br>
+        <button type="button" class="btn btn-primary" (click)="addToPauseBox(currentQ)" *ngIf="isPauseBox">Move to Pause Box</button>
+        <button type="submit" class="btn btn-danger">Next</button>
+      </ng-template>
+    </form>
+  </div>
+</div> -->

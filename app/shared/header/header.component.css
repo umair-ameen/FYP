@@ -1,0 +1,12 @@
+a.dropdown-item:hover{
+    color: white;
+}
+
+nav{
+    font-size: 1rem;
+}
+
+a.navbar-brand{
+    font-size: 1.25rem;
+    margin-right: 30px;
+}

@@ -1,0 +1,196 @@
+<div class="card">
+  <div class="card-body">
+    <h3 class="text-center">Test Information:</h3>
+    <form [formGroup]="testForm" (ngSubmit)="onTestSchedule()">
+      <div class="form-group">
+        <label for="test-title">Title: </label>
+        <input type="text" class="form-control" formControlName="title" id="test-title">
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="batch">Batch:</label>
+            <select class="form-control" formControlName="batch" id="batch" (change)="onBatchSelected($event)">
+              <option>Select a batch</option>
+              <option *ngFor="let batch of batchesNames" name="batchName" (click)="onBatchSelected($event)"> {{batch}} </option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="subject">Subject:</label>
+            <select class="form-control" formControlName="subjectName" id="subject" (change)="onSubjectSelected($event)">
+              <option *ngFor="let subject of subjectsArray; let i = index;" value="{{i}}"> {{subject.name}} </option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="date-time">Date and Time:</label>
+            <input class="form-control" type="datetime-local" formControlName="dateTime" (change)="dateTimeChange($event)">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="duration">Duration:</label>
+            <input type="number" class="form-control" formControlName="duration" step="0.1" minlength="3">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="duration">Total Marks:</label>
+            <input type="number" class="form-control" formControlName="marks" step="0.1">
+          </div>
+        </div>
+        <div class="alert alert-success">
+          According to your selection, the test will be scheduled at:
+          <b>{{this.dateTimeUTC | date:'EEEE, MMMM d, y, h:mm a'}} </b>
+          <!-- <b>{{this.dateTimeUTC | date:'dd-MM-yyyy hh:mm a':'+0500'}} </b> -->
+        </div>
+      </div>
+
+      <h3 class="text-center">MCQs:</h3>
+
+      <div formArrayName="mcqs" *ngFor=" let question of testForm.get('mcqs').controls; let i = index;">
+        <div [formGroupName]="i">
+          <div class="form-group">
+            <input type="text" placeholder="{{i+1}}. Question" formControlName="question" class="form-control">
+          </div>
+          <div class="small-inputs">
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <input type="text" placeholder="A" formControlName="a" class="col-md-12 form-control-sm">
+              </div>
+              <div class="col-md-6 form-group">
+                <input type="text" placeholder="B" formControlName="b" class="col-md-12 form-control-sm">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <input type="text" placeholder="C" formControlName="c" class="col-md-12 form-control-sm">
+              </div>
+              <div class="col-md-6 form-group">
+                <input type="text" placeholder="D" formControlName="d" class="col-md-12 form-control-sm">
+              </div>
+            </div>
+            <div class="form-group">
+              <select formControlName="key" class="form-control">
+                <option value="" selected>Select right option</option>
+                <option value="a">A</option>
+                <option value="b">B</option>
+                <option value="c">C</option>
+                <option value="d">D</option>
+              </select>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+      <small class="form-text text-danger" *ngIf="error!=''">{{error}}</small>
+      <small class="form-text text-success" *ngIf="success">Test scheduled successfully</small>
+      <br>
+      <button type="button" (click)="addMcq()" class="btn btn-success">Add Question</button>
+      <button class="btn btn-primary" type="submit">Schedule Test</button>
+    </form>
+  </div>
+</div>
+
+
+<!-- <h3>Test Information:</h3>
+<form class="form-horizontal" (ngSubmit)="onTestSubmit(f)" #f="ngForm">
+  <div class="form-group">
+    <label class="control-label col-md-2" for="test-title">Title: </label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="testTitle" id="test-title">
+    </div>
+    <label class="control-label col-md-2" for="batch">Batch:</label>
+    <div class="col-md-3">
+      <select class="form-control" name="batch" id="batch" (change)="onBatchSelected($event)">
+        <option>Select a batch</option>
+        <option *ngFor="let batch of batchesNames" name="batchName" (click)="onBatchSelected($event)"> {{batch}} </option>  
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-md-2" for="subject">Subject:</label>
+    <div class="col-md-5">
+      <select class="form-control" name="subject" id="subject" (change)="onSubjectSelected($event)" >
+        <option *ngFor="let subject of subjectsArray; let i = index;" value="{{i}}" > {{subject.name}} </option>
+      </select>
+    </div>
+    <label class="control-label col-md-2" for="date-time">Date and Time:</label>
+    <div class="col-md-3">
+      <input class="form-control" type="datetime-local" name="date">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-md-2" for="duration">Duration:</label>
+    <div class="col-md-3">
+      <input type="number" class="form-control" name="duration" step="0.1" min="1" max="3">
+    </div>
+  </div>
+  <h3>Questions:</h3>
+  <div class="row">
+    <div class="form-group">
+      <label class="col-md-1" for="q1">MCQ No.1:</label>
+      <input type="text" name="q1" id="q1" class="form-control">
+    </div>
+    <div class="form-inline">
+      <div class="form-group">
+        <label class="col-md-1" for="a1">(A)</label>
+        <input type="text" class="form-control" name="a1" id="a1">
+      </div>
+      <div class="form-group">
+        <label class="col-md-1" for="b1">(B)</label>
+        <input type="text" class="form-control" name="b1">
+      </div>
+      <div class="form-group">
+        <label class="col-md-1" for="c1">(C)</label>
+        <input type="text" class="form-control" name="c1">
+      </div>
+      <div class="form-group">
+        <label class="col-md-1" for="d1">(D)</label>
+        <input type="text" class="form-control" name="d1">
+      </div>
+      <div class="form-group">
+        <label class="col-md-1" for="answer1">Right Answer</label>
+        <select name="exp1" class="form-control" id="answer1">
+          <option value="0">A</option>
+          <option value="1">B</option>
+          <option value="2">C</option>
+          <option value="3">D</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="form-group">
+      <label class="col-md-1" for="q2">MCQ No.2:</label>
+      <input type="text" name="q2" id="q2" class="form-control">
+    </div>
+    <div class="form-inline">
+      <div class="form-group">
+        <label class="col-md-1" for="a2">(A)</label>
+        <input type="text" class="form-control" name="a2" id="a2">
+      </div>
+      <div class="form-group">
+        <label class="col-md-1" for="b2">(B)</label>
+        <input type="text" class="form-control" name="b2" id="b2">
+      </div>
+      <div class="form-group">
+        <label class="col-md-1" for="c2">(C)</label>
+        <input type="text" class="form-control" name="c2" id="c2">
+      </div>
+      <div class="form-group">
+        <label class="col-md-1" for="d2">(D)</label>
+        <input type="text" class="form-control" name="d2" id="d2">
+      </div>
+      <div class="form-group">
+        <label class="col-md-1" for="answer2">Right Answer</label>
+        <select name="exp2" class="form-control" id="answer2">
+          <option value="0">A</option>
+          <option value="1">B</option>
+          <option value="2">C</option>
+          <option value="3">D</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <button class="btn btn-primary" type="submit">Submit</button>
+</form> -->

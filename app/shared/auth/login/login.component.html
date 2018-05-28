@@ -1,0 +1,46 @@
+<app-header></app-header>
+<div class="my-login-page">
+  <section class="h-100">
+    <div class="container h-100">
+      <div class="row justify-content-md-center h-100">
+        <div class="card-wrapper">
+          <div class="brand">
+            <img src="assets/img/logo.png">
+          </div>
+          <div class="card fat">
+            <div class="card-body">
+              <h4 class="card-title">Login</h4>
+              <form class="form" (ngSubmit)="onLogin(f)" #f="ngForm">
+
+                <div class="form-group">
+                  <label for="email">E-Mail Address</label>
+                  <input type="email" name="email" class="form-control" required email ngModel>
+                </div>
+
+                <div class="form-group">
+                  <label for="password">Password
+                    <!-- <a href="#" class="float-right">
+                      Forgot Password?
+                    </a> -->
+                  </label>
+                  <input type="password" name="password" class="form-control" ngModel name="password" minlength="6" required data-eye>
+                </div>
+                <small id="emailHelp" class="form-text text-danger" *ngIf="(f.touched && f.invalid) || loginError">Email or password is invalid.</small>
+                <div class="form-group mt">
+                  <button type="submit" class="btn btn-primary btn-block" [disabled]="f.invalid">Login</button>
+                </div>
+                <div class="margin-top20 text-center">
+                  Don't have an account?
+                  <a routerLink="/signup">Create One</a>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="footer">
+            Copyright &copy; Online Student Assessment System @ SBBU
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
